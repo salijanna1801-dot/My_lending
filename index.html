@@ -33,6 +33,7 @@
         <nav class="nav" aria-label="Навигация по странице">
           <a class="nav__link" href="#about">Обо мне</a>
           <a class="nav__link" href="#services">Что делаю</a>
+          <a class="nav__link" href="#testimonials">Отзывы</a>
           <a class="nav__link" href="#reasons">Почему я</a>
           <a class="nav__link" href="#process">Как работаю</a>
           <a class="nav__link" href="#contacts">Контакты</a>
@@ -208,6 +209,54 @@
               </p>
               <a class="link" href="#contacts">Показать кейс →</a>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3.5 Отзывы -->
+      <section id="testimonials" class="section">
+        <div class="container">
+          <div class="section__head reveal">
+            <h2 class="h2">Отзывы</h2>
+            <p class="muted">Живые впечатления клиентов о процессе и результате.</p>
+          </div>
+
+          <div class="testimonial-container reveal" data-testimonials>
+            <div class="testimonial-grid">
+              <div class="image-container" data-testimonial-images>
+                <img
+                  class="testimonial-image"
+                  src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1368&auto=format&fit=crop"
+                  alt="Отзыв Анны К."
+                />
+                <img
+                  class="testimonial-image"
+                  src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1368&auto=format&fit=crop"
+                  alt="Отзыв Марии В."
+                />
+                <img
+                  class="testimonial-image"
+                  src="https://images.unsplash.com/photo-1521119989659-a83eee488004?q=80&w=1368&auto=format&fit=crop"
+                  alt="Отзыв Елены С."
+                />
+              </div>
+
+              <div class="testimonial-content">
+                <div class="testimonial-copy" data-testimonial-copy>
+                  <h3 class="testimonial-name"></h3>
+                  <p class="testimonial-role"></p>
+                  <p class="testimonial-quote"></p>
+                </div>
+                <div class="arrow-buttons">
+                  <button class="arrow-button prev-button" type="button" aria-label="Предыдущий отзыв" data-testimonial-prev>
+                    &#8592;
+                  </button>
+                  <button class="arrow-button next-button" type="button" aria-label="Следующий отзыв" data-testimonial-next>
+                    &#8594;
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

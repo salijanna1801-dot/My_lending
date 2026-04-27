@@ -40,6 +40,7 @@
   const heroPhoto = document.querySelector(".hero-photo");
   const focusContainers = Array.from(document.querySelectorAll("[data-true-focus]"));
   const shinyTextEls = Array.from(document.querySelectorAll("[data-shiny-text]"));
+  const testimonialRoot = document.querySelector("[data-testimonials]");
 
   if ("IntersectionObserver" in window) {
     const io = new IntersectionObserver(
@@ -252,6 +253,170 @@
   for (const shinyTextEl of shinyTextEls) {
     initShinyText(shinyTextEl);
   }
+
+  function initTestimonials(root) {
+    if (!root) return;
+    const images = Array.from(root.querySelectorAll(".testimonial-image"));
+    const copyEl = root.querySelector("[data-testimonial-copy]");
+    const nameEl = copyEl?.querySelector(".testimonial-name");
+    const roleEl = copyEl?.querySelector(".testimonial-role");
+    const quoteEl = copyEl?.querySelector(".testimonial-quote");
+    const prevButton = root.querySelector("[data-testimonial-prev]");
+    const nextButton = root.querySelector("[data-testimonial-next]");
+
+    if (!images.length || !nameEl || !roleEl || !quoteEl || !prevButton || !nextButton) return;
+
+    const testimonials = [
+      {
+        name: "Анна К.",
+        designation: "Эксперт, онлайн-курс",
+        quote:
+          "Очень бережный процесс: меня услышали, помогли структурировать смысл, и в итоге сайт стал выглядеть именно так, как я ощущаю свой бренд.",
+      },
+      {
+        name: "Мария В.",
+        designation: "Основатель бьюти-студии",
+        quote:
+          "Понравилось, как спокойно и четко выстроена работа. Без хаоса, без лишних правок, с красивой подачей и понятным путем клиента к заявке.",
+      },
+      {
+        name: "Елена С.",
+        designation: "Психолог, частная практика",
+        quote:
+          "Получился теплый, аккуратный сайт с доверием в деталях. После запуска заметно выросло количество осознанных обращений от моей аудитории.",
+      },
+    ];
+
+    let activeIndex = 0;
+    let autoplayTimer = null;
+
+    function calculateGap(width) {
+      const minWidth = 768;
+      const maxWidth = 1456;
+      const minGap = 42;
+      const maxGap = 86;
+      if (width <= minWidth) return minGap;
+      if (width >= maxWidth) return maxGap;
+      return minGap + (maxGap - minGap) * ((width - minWidth) / (maxWidth - minWidth));
+    }
+
+    function renderQuote(quote) {
+      quoteEl.innerHTML = "";
+      const words = quote.split(" ");
+      words.forEach((word, i) => {
+        const span = document.createElement("span");
+        span.className = "testimonial-word";
+        span.textContent = `${word} `;
+        span.style.filter = "blur(8px)";
+        span.style.opacity = "0";
+        span.style.transform = "translateY(6px)";
+        span.style.transitionDelay = `${i * 25}ms`;
+        quoteEl.appendChild(span);
+      });
+      requestAnimationFrame(() => {
+        const spans = quoteEl.querySelectorAll(".testimonial-word");
+        spans.forEach((span) => {
+          span.style.filter = "blur(0px)";
+          span.style.opacity = "1";
+          span.style.transform = "translateY(0px)";
+        });
+      });
+    }
+
+    function getImageStyle(index) {
+      const width = root.clientWidth;
+      const gap = calculateGap(width);
+      const maxStickUp = gap * 0.7;
+      const total = images.length;
+      const isActive = index === activeIndex;
+      const isLeft = (activeIndex - 1 + total) % total === index;
+      const isRight = (activeIndex + 1) % total === index;
+
+      if (isActive) {
+        return {
+          zIndex: "3",
+          opacity: "1",
+          pointerEvents: "auto",
+          transform: "translateX(0px) translateY(0px) scale(1) rotateY(0deg)",
+        };
+      }
+      if (isLeft) {
+        return {
+          zIndex: "2",
+          opacity: "1",
+          pointerEvents: "auto",
+          transform: `translateX(-${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(15deg)`,
+        };
+      }
+      if (isRight) {
+        return {
+          zIndex: "2",
+          opacity: "1",
+          pointerEvents: "auto",
+          transform: `translateX(${gap}px) translateY(-${maxStickUp}px) scale(0.85) rotateY(-15deg)`,
+        };
+      }
+      return {
+        zIndex: "1",
+        opacity: "0",
+        pointerEvents: "none",
+        transform: "translateX(0px) translateY(0px) scale(0.8)",
+      };
+    }
+
+    function render() {
+      const active = testimonials[activeIndex];
+      nameEl.textContent = active.name;
+      roleEl.textContent = active.designation;
+      renderQuote(active.quote);
+
+      images.forEach((img, index) => {
+        const style = getImageStyle(index);
+        Object.assign(img.style, style);
+      });
+    }
+
+    function next() {
+      activeIndex = (activeIndex + 1) % testimonials.length;
+      render();
+    }
+
+    function prev() {
+      activeIndex = (activeIndex - 1 + testimonials.length) % testimonials.length;
+      render();
+    }
+
+    function startAutoplay() {
+      autoplayTimer = window.setInterval(next, 5000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    prevButton.addEventListener("click", () => {
+      prev();
+      stopAutoplay();
+    });
+    nextButton.addEventListener("click", () => {
+      next();
+      stopAutoplay();
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    });
+    window.addEventListener("resize", render);
+
+    render();
+    startAutoplay();
+  }
+
+  initTestimonials(testimonialRoot);
 
   // Subtle pointer parallax for hero portrait.
   if (heroPhoto && window.matchMedia("(prefers-reduced-motion: no-preference)").matches) {
