@@ -446,6 +446,27 @@ a {
   object-fit: cover;
   border-bottom: 1px solid rgba(243, 224, 205, 0.14);
 }
+.project-thumb--game {
+  object-position: top center;
+}
+.project-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  width: calc(100% + 44px);
+  margin: -24px -22px 16px;
+  padding: 10px;
+  border-bottom: 1px solid rgba(243, 224, 205, 0.14);
+  background: rgba(18, 12, 12, 0.38);
+}
+.project-gallery__thumb {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 10px;
+  border: 1px solid rgba(243, 224, 205, 0.16);
+}
 .card--project::before {
   content: "";
   position: absolute;
@@ -720,6 +741,24 @@ a {
   border: 1px solid rgba(243, 224, 205, 0.18);
   background: linear-gradient(180deg, rgba(255, 241, 227, 0.08), rgba(255, 255, 255, 0.02));
   box-shadow: var(--shadow2);
+  transition: border-color 240ms ease, box-shadow 240ms ease;
+}
+.contact.is-highlight {
+  animation: contactHighlight 1.8s ease;
+}
+@keyframes contactHighlight {
+  0% {
+    border-color: rgba(243, 224, 205, 0.2);
+    box-shadow: var(--shadow2);
+  }
+  35% {
+    border-color: rgba(202, 177, 152, 0.74);
+    box-shadow: 0 0 0 2px rgba(202, 177, 152, 0.22), 0 24px 60px rgba(106, 54, 51, 0.42);
+  }
+  100% {
+    border-color: rgba(243, 224, 205, 0.18);
+    box-shadow: var(--shadow2);
+  }
 }
 .contact__links {
   margin-top: 18px;
@@ -785,9 +824,21 @@ a {
   border-color: rgba(202, 177, 152, 0.6);
   box-shadow: 0 0 0 4px rgba(202, 177, 152, 0.14);
 }
+.field__control.is-error {
+  border-color: rgba(186, 80, 70, 0.78);
+  box-shadow: 0 0 0 4px rgba(186, 80, 70, 0.16);
+}
 textarea.field__control {
   resize: vertical;
   min-height: 110px;
+}
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 .fineprint {
   margin: 0;

@@ -5,8 +5,11 @@
   const toast = document.querySelector(".toast");
   let toastTimer = null;
 
-  function showToast() {
+  function showToast(message) {
     if (!toast) return;
+    if (typeof message === "string" && message.trim()) {
+      toast.textContent = message;
+    }
     toast.hidden = false;
     toast.style.opacity = "0";
     toast.style.transform = "translateX(-50%) translateY(8px)";
@@ -35,6 +38,154 @@
       showToast();
     }
   });
+
+  const contactSection = document.getElementById("contacts");
+  let contactHighlightTimer = null;
+
+  document.addEventListener("click", (e) => {
+    const target = e.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const contactCta = target.closest("[data-cta-contacts]");
+    if (contactCta && contactSection) {
+      const contactCard = contactSection.querySelector(".contact");
+      if (contactCard) {
+        contactCard.classList.remove("is-highlight");
+        void contactCard.offsetWidth;
+        contactCard.classList.add("is-highlight");
+        if (contactHighlightTimer) window.clearTimeout(contactHighlightTimer);
+        contactHighlightTimer = window.setTimeout(() => {
+          contactCard.classList.remove("is-highlight");
+        }, 1800);
+      }
+      return;
+    }
+
+    const telegramCta = target.closest("[data-cta-telegram]");
+    if (!telegramCta) return;
+
+    const message = telegramCta.getAttribute("data-cta-message") || "Хочу обсудить проект";
+    const telegramUrl = "https://t.me/Anna_stratagy";
+    const isButton = telegramCta.tagName.toLowerCase() === "button";
+
+    e.preventDefault();
+
+    const openTelegram = () => {
+      if (isButton) {
+        window.open(telegramUrl, "_blank", "noopener,noreferrer");
+      } else if (telegramCta instanceof HTMLAnchorElement) {
+        window.open(telegramCta.href, "_blank", "noopener,noreferrer");
+      } else {
+        window.open(telegramUrl, "_blank", "noopener,noreferrer");
+      }
+    };
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard
+        .writeText(message)
+        .then(() => {
+          showToast("Сообщение скопировано — вставьте в чат @Anna_stratagy");
+          openTelegram();
+        })
+        .catch(() => {
+          showToast("Открываю Telegram. Напишите: «Хочу обсудить проект»");
+          openTelegram();
+        });
+      return;
+    }
+
+    showToast("Открываю Telegram. Напишите: «Хочу обсудить проект»");
+    openTelegram();
+  });
+
+  const formSubmitForms = Array.from(document.querySelectorAll("form[data-formsubmit]"));
+  for (const form of formSubmitForms) {
+    initFormSubmit(form);
+  }
+
+  function initFormSubmit(form) {
+    const submitBtn = form.querySelector("[data-form-submit-btn]");
+    const originalBtnText = submitBtn ? submitBtn.textContent : "Отправить";
+
+    form.addEventListener("input", (event) => {
+      const target = event.target;
+      if (target instanceof HTMLElement && target.classList.contains("is-error")) {
+        target.classList.remove("is-error");
+      }
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value) {
+        return;
+      }
+
+      const nameField = form.querySelector('[name="name"]');
+      const contactField = form.querySelector('[name="contact"]');
+      const messageField = form.querySelector('[name="message"]');
+
+      const requiredFields = [nameField, contactField, messageField].filter(Boolean);
+      let firstInvalid = null;
+      for (const field of requiredFields) {
+        const value = (field.value || "").trim();
+        if (!value) {
+          field.classList.add("is-error");
+          if (!firstInvalid) firstInvalid = field;
+        } else {
+          field.classList.remove("is-error");
+        }
+      }
+      if (firstInvalid) {
+        firstInvalid.focus();
+        showToast("Заполните, пожалуйста, все поля формы.");
+        return;
+      }
+
+      const payload = {
+        name: nameField.value.trim(),
+        contact: contactField.value.trim(),
+        message: messageField.value.trim(),
+        _subject: "Заявка с сайта-портфолио",
+        _template: "box",
+        _captcha: "false",
+      };
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Отправляю…";
+      }
+
+      const endpoint = "https://formsubmit.co/ajax/salij.anna@yandex.ru";
+
+      fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Network error");
+          return response.json();
+        })
+        .then(() => {
+          showToast("Заявка отправлена. Я свяжусь с вами.");
+          form.reset();
+        })
+        .catch(() => {
+          showToast("Не удалось отправить. Напишите в Telegram @Anna_stratagy");
+        })
+        .finally(() => {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+        });
+    });
+  }
 
   const revealEls = Array.from(document.querySelectorAll(".reveal"));
   const heroPhoto = document.querySelector(".hero-photo");

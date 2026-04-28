@@ -39,7 +39,14 @@
           <a class="nav__link" href="#contacts">Контакты</a>
         </nav>
 
-        <a class="btn btn--small btn--ghost" href="#contacts">Обсудить</a>
+        <a
+          class="btn btn--small btn--ghost"
+          href="https://t.me/Anna_stratagy"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-cta-telegram
+          data-cta-message="Хочу обсудить проект"
+        >Обсудить</a>
       </div>
     </header>
 
@@ -79,7 +86,7 @@
             </p>
 
             <div class="hero__actions">
-              <a class="btn" href="#contacts">Обсудить проект</a>
+              <a class="btn" href="#contacts" data-cta-contacts>Обсудить проект</a>
               <a class="btn btn--ghost" href="#works">Посмотреть работы</a>
             </div>
 
@@ -215,11 +222,18 @@
                 Внутренний интерфейс для работы с заявками, статусами и данными
                 клиентов. Помогает быстрее обрабатывать заказы.
               </p>
-              <a class="link" href="#contacts">Запросить детали кейса →</a>
+              <a
+                class="link"
+                href="https://t.me/Anna_stratagy"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta-telegram
+                data-cta-message="Хочу обсудить проект"
+              >Запросить детали кейса →</a>
             </article>
             <article class="card card--project reveal">
               <img
-                class="project-thumb"
+                class="project-thumb project-thumb--game"
                 src="./2026-04-28_23-35-55.png"
                 alt="Игра Хранители Речи: Легенда Печатей"
                 loading="lazy"
@@ -231,55 +245,39 @@
                 Образовательная игра по русскому языку: главы, очки, жизни и
                 прогресс. Обучение построено в формате интерактивного квеста.
               </p>
-              <a class="link" href="https://salijanna1801-dot.github.io" target="_blank" rel="noopener noreferrer">Открыть проект →</a>
+              <a class="link" href="file:///C:/Users/Анна/Desktop/проекты%20курсор/проект_тест/proekt_test/game.html" target="_blank" rel="noopener noreferrer">Просмотр →</a>
             </article>
             <article class="card card--project reveal">
-              <img
-                class="project-thumb"
-                src="./Screenshot_2026.04.28_23.13.03.458.png"
-                alt="Экран мобильного кондитерского калькулятора"
-                loading="lazy"
-                decoding="async"
-              />
+              <div class="project-gallery">
+                <img
+                  class="project-gallery__thumb"
+                  src="./Screenshot_2026.04.28_23.13.03.458.png"
+                  alt="Экран расчетов в мобильном кондитерском калькуляторе"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  class="project-gallery__thumb"
+                  src="./Screenshot_2026.04.28_23.13.13.456.png"
+                  alt="Экран себестоимости в мобильном кондитерском калькуляторе"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  class="project-gallery__thumb"
+                  src="./Screenshot_2026.04.28_23.13.26.756.png"
+                  alt="Экран настроек в мобильном кондитерском калькуляторе"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
               <div class="tag">Mobile UI • Калькулятор</div>
-              <h3 class="h3">Кондитерский калькулятор для мастеров</h3>
+              <h3 class="h3">Кондитерский калькулятор для частных кондитеров</h3>
               <p class="text">
-                Мобильное приложение для пересчета рецептов, порций, веса и
-                базовых параметров торта в пару касаний.
+                Удобное мобильное приложение для частных кондитеров: помогает
+                быстро пересчитать рецепт под нужные порции, посчитать
+                себестоимость и определить итоговую цену за порцию.
               </p>
-              <a class="link" href="#contacts">Показать полный кейс →</a>
-            </article>
-            <article class="card card--project reveal">
-              <img
-                class="project-thumb"
-                src="./Screenshot_2026.04.28_23.13.13.456.png"
-                alt="Экран себестоимости в мобильном кондитерском калькуляторе"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="tag">UX • Финмодель</div>
-              <h3 class="h3">Блок себестоимости и цены</h3>
-              <p class="text">
-                Экран для расчета себестоимости: ингредиенты, работа, наценка и
-                итоговая цена за порцию в одном блоке.
-              </p>
-              <a class="link" href="#contacts">Обсудить похожий проект →</a>
-            </article>
-            <article class="card card--project reveal">
-              <img
-                class="project-thumb"
-                src="./Screenshot_2026.04.28_23.13.26.756.png"
-                alt="Экран настроек цен и коэффициентов в мобильном калькуляторе"
-                loading="lazy"
-                decoding="async"
-              />
-              <div class="tag">Product UI • Настройки</div>
-              <h3 class="h3">Гибкие параметры для расчетов</h3>
-              <p class="text">
-                Отдельные настройки коэффициентов слоев, процентов и цен за 1 кг
-                для точного и удобного расчета.
-              </p>
-              <a class="link" href="#contacts">Запросить демо →</a>
             </article>
           </div>
         </div>
@@ -500,7 +498,26 @@
               </div>
             </div>
 
-            <form class="form" autocomplete="on">
+            <form
+              class="form"
+              autocomplete="on"
+              data-formsubmit
+              action="https://formsubmit.co/salij.anna@yandex.ru"
+              method="POST"
+              novalidate
+            >
+              <input type="hidden" name="_subject" value="Заявка с сайта-портфолио" />
+              <input type="hidden" name="_template" value="box" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input
+                type="text"
+                name="_honey"
+                class="honeypot"
+                tabindex="-1"
+                autocomplete="off"
+                aria-hidden="true"
+              />
+
               <label class="field">
                 <span class="field__label">Имя</span>
                 <input class="field__control" name="name" placeholder="Как к вам обращаться" />
@@ -524,12 +541,12 @@
                 ></textarea>
               </label>
 
-              <button class="btn btn--full" type="button" data-toast="1">
-                Отправить (демо)
+              <button class="btn btn--full" type="submit" data-form-submit-btn>
+                Отправить заявку
               </button>
               <p class="fineprint">
-                Нажатие кнопки показывает демо‑уведомление. Для реальной отправки
-                подключим почту/форму.
+                Нажимая «Отправить заявку», вы соглашаетесь, что я свяжусь с
+                вами по указанным контактам.
               </p>
             </form>
           </div>
@@ -544,7 +561,14 @@
             <p class="text muted">
               Помогу оформить идею и создать решение, которое будет выглядеть достойно.
             </p>
-            <a class="btn" href="#contacts">Обсудить проект</a>
+            <a
+              class="btn"
+              href="https://t.me/Anna_stratagy"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta-telegram
+              data-cta-message="Хочу обсудить проект"
+            >Обсудить проект</a>
           </div>
         </div>
       </section>
